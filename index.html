@@ -1,0 +1,103 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <title>Child Prediction</title>
+    <style>
+        .container{
+            text-align: center;
+            background-color: rgb(234, 234, 234);
+            padding: 20px;
+            margin: 40px auto 20px auto;
+        }
+        #label{
+            font-size: 25px;
+            font-weight: 500
+        }
+        .form-label{
+            font-size: 20px;
+            font-weight: 500
+        }
+        .row {
+            margin-bottom: 30px;
+        }
+        .btn{
+            margin-bottom: 30px;
+        }
+        #resultImage{
+          justify-content: center;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-between " id="row">
+            <label class="form-label" id="label">First Child Prediction</label>
+            <div class="col-md-6 mb-3">
+                <label for="Father" class="form-label">Father Name</label>
+                <input type="text" class="form-control col-3" id="Father" placeholder="name">
+            </div>
+           <div class="col-md-6 mb-3">
+            <label for="Mother" class="form-label">Mother Name</label>
+                <input type="text" class="form-control" id="Mother" placeholder="Name">
+           </div>
+        </div>
+        <button type="button" class="btn btn-primary" id="btn" >Prediction</button>
+        <div id="resultShow"></div>
+        <img id="resultImage" alt="">
+        <p id="time"></p>
+    </div>
+    <script>
+        function getTime() {
+            const now = new Date();
+            const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            const dayName = days[now.getDay()];
+            const date = now.getDate();
+            const monthName = months[now.getMonth()];
+            const year = now.getFullYear();
+            const hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            const amPm = hours >= 12 ? "pm" : "am";
+            const formattedHours = (hours % 12 || 12).toString().padStart(2, '0');
+            const add = (date % 10 === 1 && date !== 11) ? "st" :
+                           (date % 10 === 2 && date !== 12) ? "nd" :
+                           (date % 10 === 3 && date !== 13) ? "rd" : "th";
+            const timeString = `${dayName} ${date}${add} ${monthName}, ${year} ${formattedHours}:${minutes}:${seconds} ${amPm}`;
+            document.getElementById("time").innerHTML = timeString;
+        }
+    document.getElementById("btn").addEventListener("click", function () {
+    const fatherName = document.getElementById("Father").value.trim();
+    const motherName = document.getElementById("Mother").value.trim();
+
+    const totalLength = fatherName.length + motherName.length;
+    const result = totalLength % 2 === 0 ? "Girl" : "Boy";
+    const imagePath = result.toLowerCase() + ".jpg";
+    if (totalLength==0){
+        alert("Please!input your name!");
+    }else{
+        const resultHTML = `
+            <h2>First Child of</h2>
+            <p><strong>Father:</strong> ${fatherName} </p>
+            <p><strong>Mother:</strong> ${motherName}</p>
+            <p><strong>Is:</strong> ${result}</p>
+             `;
+
+            document.getElementById("resultShow").innerHTML = resultHTML;
+        
+        const resultImage = document.getElementById("resultImage");
+            resultImage.src = imagePath;
+            resultImage.alt = result;
+            getTime();
+    }
+        
+    });
+    
+   
+    </script>
+</body>
+</html>
